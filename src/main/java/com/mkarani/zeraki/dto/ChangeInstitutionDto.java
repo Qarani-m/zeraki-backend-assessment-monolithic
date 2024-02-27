@@ -13,4 +13,5 @@ public class ChangeInstitutionDto {
     private Long newInstituteId;
     private String oldInstitutionCourseCode;
     private String newInstitutionCourseCode;
+    private String newRegNumber;
 }

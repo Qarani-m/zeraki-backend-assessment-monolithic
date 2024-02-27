@@ -18,4 +18,10 @@ public interface StudentService {
     StudentEntity transferStudent(Long studentId, ChangeInstitutionDto changeInstitutionDto) throws Exception;
 
     List<StudentEntity> listStudents();
+
+    List<StudentEntity> listStudentsByCourse(String courseCode) throws Exception;
+
+    List<StudentEntity> studentsInEachInstitution(String institution);
+
+    List<StudentEntity> specificStudentIninstitution(String institution, String student);
 }

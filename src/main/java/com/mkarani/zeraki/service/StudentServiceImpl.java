@@ -14,6 +14,7 @@ import com.mkarani.zeraki.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -110,24 +111,78 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public StudentEntity transferStudent(Long studentId, ChangeInstitutionDto changeInstitutionDto) throws Exception {
-        Optional<InstitutionEntity> oldInstitutionEntity = institutionRepository.findById(changeInstitutionDto.getOldInstituteId());
-        if(oldInstitutionEntity.isEmpty()){
-            throw new InstitutionExistsException("Institution with name: "+changeInstitutionDto.getOldInstituteId().toString()+" does not Exist");
+
+     try{
+         Optional<InstitutionEntity> oldInstitutionEntity = institutionRepository.findById(changeInstitutionDto.getOldInstituteId());
+        if (oldInstitutionEntity.isEmpty()) {
+            throw new InstitutionExistsException("Institution with name: " + changeInstitutionDto.getOldInstituteId().toString() + " does not Exist");
         }
+        Optional<StudentEntity> oldStudentEntity = studentRepository.findById(studentId);
+        if (oldStudentEntity.isEmpty()) {
+            throw new InstitutionExistsException("Student with id: " + studentId + " does not Exist");
+        }
+//        Remove student from the old institution
         InstitutionEntity oldInstitution = oldInstitutionEntity.get();
-        oldInstitution.setStudentCount(oldInstitution.getStudentCount()-1);
         List<String> oldInstitutionRegNumbers = oldInstitution.getStudentReg();
+        StudentEntity oldStudent = oldStudentEntity.get();
+        oldInstitutionRegNumbers.remove(oldStudent.getRegNumber());
+        institutionRepository.save(oldInstitution);
 
+//        Add Student to the new institution
 
+        Optional<InstitutionEntity> newInstitutionEntity = institutionRepository.findById(changeInstitutionDto.getNewInstituteId());
+        if (newInstitutionEntity.isEmpty()) {
+            throw new InstitutionExistsException("Institution with name: " + changeInstitutionDto.getNewInstituteId().toString() + " does not Exist");
+        }
 
+        InstitutionEntity newInstitution = newInstitutionEntity.get();
+        List<String> studentRegNumbers = newInstitution.getStudentReg();
+        studentRegNumbers.add(changeInstitutionDto.getNewRegNumber());
+        oldStudent.setInstitution(changeInstitutionDto.getNewInstituteId());
+        institutionRepository.save(newInstitution);
 
+        return studentRepository.save(oldStudent);
 
+    }catch(Exception e){
+        System.out.println(e.getMessage());
+        return  null;
+
+    }}
+
+    @Override
+    public List<StudentEntity> listStudents() {
         return null;
     }
 
     @Override
-    public List<StudentEntity> listStudents() {
-        return studentRepository.findAll();
+    public List<StudentEntity> listStudentsByCourse(String courseCode) throws Exception {
+        try{
+            return studentRepository.findByCourse(courseCode);
+
+
+        }catch(Exception e){
+            throw new Exception("Error when deleting student");
+        }
+    }
+
+    @Override
+    public List<StudentEntity> studentsInEachInstitution(String institution) {
+        List<InstitutionEntity> institutionEntity = institutionRepository.findByCompanyNameContaining(institution);
+        Long institutionId = institutionEntity.get(0).getId();
+        return studentRepository.findAllByInstitution(institutionId);
+    }
+
+    @Override
+    public List<StudentEntity> specificStudentIninstitution(String institution, String student) {
+        List<StudentEntity> students = studentsInEachInstitution(institution);
+        List<StudentEntity> returnList = new ArrayList<>();
+        for(StudentEntity studentEntity: students){
+            if(studentEntity.getName().contains(student)){
+                returnList.add(studentEntity);
+
+            }
+        }
+        return returnList;
     }
 
 

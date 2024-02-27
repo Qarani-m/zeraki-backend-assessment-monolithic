@@ -78,6 +78,8 @@ public class StudentController {
 
         }catch (InstitutionExistsException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
 
 
@@ -87,5 +89,37 @@ public class StudentController {
     public  ResponseEntity<List<StudentEntity>> listStudents(){
         List<StudentEntity> studentEntities = studentService.listStudents();
         return  ResponseEntity.ok(studentEntities);
+    }
+//    List all students in each institution
+    @GetMapping("/students-in-institution/{institution}")
+    public ResponseEntity<?> studentsInEachInstitution(@PathVariable String institution){
+        try{
+            List<StudentEntity> studentEntities = studentService.studentsInEachInstitution(institution);
+            return ResponseEntity.status(HttpStatus.OK).body(studentEntities);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    //    List all students in each institution
+    @GetMapping("/students-in-institution/{institution}/{studentName}")
+    public ResponseEntity<?> specificStudentIninstitution(@PathVariable String institution, @PathVariable String student) {
+        try{
+            List<StudentEntity> studentEntities = studentService.specificStudentIninstitution(institution, student);
+            return ResponseEntity.status(HttpStatus.OK).body(studentEntities);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+//Filter students by course
+    @GetMapping("/filter-students-by-course/{courseCode}")
+    public ResponseEntity<?>  filterStudentsByCourse(@PathVariable String courseCode){
+        try{
+            List<StudentEntity> studentEntities = studentService.listStudentsByCourse(courseCode);
+            return ResponseEntity.status(HttpStatus.OK).body(studentEntities);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 }
