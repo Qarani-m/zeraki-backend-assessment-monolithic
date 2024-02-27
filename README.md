@@ -35,4 +35,3 @@ This command starts the application inside a Docker container and maps port 4565
 
 ---
 
-Feel free to adjust the content according to your specific requirements or preferences.
