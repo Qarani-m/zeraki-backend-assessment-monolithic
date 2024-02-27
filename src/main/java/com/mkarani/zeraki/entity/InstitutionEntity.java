@@ -1,6 +1,5 @@
 package com.mkarani.zeraki.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,14 +22,5 @@ public class InstitutionEntity {
     private String county;
     private String country;
     private String phoneNumber;
-
-    @ManyToMany
-    @JoinTable(
-            name = "institution_course",
-            joinColumns = @JoinColumn(name = "institution_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
-    private List<CourseEntity> coursesOffered;
-
-    // Getters and setters
+    private List<String> coursesOffered;
 }

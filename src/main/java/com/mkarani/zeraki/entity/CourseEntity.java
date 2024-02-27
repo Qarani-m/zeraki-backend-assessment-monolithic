@@ -20,8 +20,5 @@ public class CourseEntity {
     private String courseCode;
     private String name;
     private int studentCount;
-    @ManyToMany(mappedBy = "coursesOffered")
-    private List<InstitutionEntity> institutionsOffering;
 
-    // Getters and setters
 }

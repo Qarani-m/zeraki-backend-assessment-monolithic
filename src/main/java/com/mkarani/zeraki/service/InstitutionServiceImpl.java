@@ -1,10 +1,10 @@
 package com.mkarani.zeraki.service;
 
+import com.mkarani.zeraki.entity.InstitutionEntity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mkarani.zeraki.dto.InstitutionRequest;
-import com.mkarani.zeraki.entity.InstitutionEntity;
 import com.mkarani.zeraki.exceptions.DeletionErrorException;
 import com.mkarani.zeraki.exceptions.InstitutionExistsException;
 import com.mkarani.zeraki.repository.InstitutionRepository;

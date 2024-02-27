@@ -20,5 +20,5 @@ public class InstitutionRequest {
     private String county;
     private String country;
     private String phoneNumber;
-    private List<CourseEntity> coursesOffered;
+    private List<String> coursesOffered;
 }

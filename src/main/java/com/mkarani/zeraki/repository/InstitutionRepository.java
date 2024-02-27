@@ -1,9 +1,10 @@
 package com.mkarani.zeraki.repository;
 
-import com.mkarani.zeraki.entity.InstitutionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import com.mkarani.zeraki.entity.InstitutionEntity;
+
 
 import java.util.List;
 import java.util.Optional;

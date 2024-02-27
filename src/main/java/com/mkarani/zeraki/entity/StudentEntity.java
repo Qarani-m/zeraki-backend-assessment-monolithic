@@ -1,6 +1,7 @@
 package com.mkarani.zeraki.entity;
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
 @Table(name = "institutions", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
@@ -16,16 +17,8 @@ public class StudentEntity {
 
     @Column(name = "regNumber", unique = true)
     private String regNumber;
-
     private String name;
-
     private String email;
-
-//    @ManyToOne
-//    @JoinColumn(name = "course_id")
-//    private Course course;
-
-    @ManyToOne
-    @JoinColumn(name = "institution_id")
-    private InstitutionEntity institution;
+    private List<String> course;
+    private String institution;
 }
