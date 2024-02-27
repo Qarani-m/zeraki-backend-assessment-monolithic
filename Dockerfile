@@ -1,15 +1,9 @@
-FROM ubuntu:latest
-LABEL authors="martin"
-
-ENTRYPOINT ["top", "-b"]
-
-
 
 
 
 
 # Use a base image with JDK installed
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17
 LABEL authors="martin"
 
 ARG JAR_FILE=target/*.jar

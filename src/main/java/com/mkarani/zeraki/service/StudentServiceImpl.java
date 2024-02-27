@@ -151,7 +151,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public List<StudentEntity> listStudents() {
-        return null;
+        return studentRepository.findAll();
     }
 
     @Override

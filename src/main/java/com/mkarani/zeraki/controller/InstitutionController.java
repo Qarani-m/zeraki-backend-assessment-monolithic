@@ -71,6 +71,23 @@ public class InstitutionController {
         }
     }
 
+//    endpont to get all the courses tought in this institution
+    @GetMapping("/course/{institutionId}")
+    public  ResponseEntity<?> getCoursesInInstitutoin(@PathVariable Long institutionId){
+        try{
+            return ResponseEntity.ok().body(
+                    institutionService.getCourses(institutionId)
+            );
+
+
+        }catch(Exception e){
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+
+        }
+    }
+
+
     // Endpoint to update the name of an institution
     @PutMapping("/update-name/{id}")
     public ResponseEntity<?> editInstitutionName(@PathVariable Long id, @RequestBody String newInstitutionName) {

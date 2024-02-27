@@ -18,4 +18,6 @@ public interface InstitutionService {
     String deleteInstitution(Long id);
 
     InstitutionEntity editInstitutionName(Long id, String name) throws JsonProcessingException;
+
+    Object getCourses(Long institutionId) throws Exception;
 }

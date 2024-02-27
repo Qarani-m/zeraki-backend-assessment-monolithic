@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 public class StudentRequest {
     private String regNumber;
+    
     private String name;
     private String email;
     private String course;

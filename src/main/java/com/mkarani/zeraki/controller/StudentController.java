@@ -32,7 +32,11 @@ public class StudentController {
 
     }catch (StudentExistError e){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    }
+    }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+
+        }
     }
     // Delete a student
     @DeleteMapping("/delete/{studentId}")
@@ -92,7 +96,7 @@ public class StudentController {
     }
 //    List all students in each institution
     @GetMapping("/students-in-institution/{institution}")
-    public ResponseEntity<?> studentsInEachInstitution(@PathVariable String institution){
+    public ResponseEntity<?> studentsInEachInewnstitution(@PathVariable String institution){
         try{
             List<StudentEntity> studentEntities = studentService.studentsInEachInstitution(institution);
             return ResponseEntity.status(HttpStatus.OK).body(studentEntities);
@@ -101,7 +105,7 @@ public class StudentController {
         }
     }
 
-    //    List all students in each institution
+    //    List a specific student in a specific institution
     @GetMapping("/students-in-institution/{institution}/{studentName}")
     public ResponseEntity<?> specificStudentIninstitution(@PathVariable String institution, @PathVariable String student) {
         try{

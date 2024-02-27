@@ -88,5 +88,14 @@ public class InstitutionServiceImpl implements InstitutionService{
         return institutionRepository.save(institutionEntity);
     }
 
+    @Override
+    public Object getCourses(Long institutionId) throws Exception {
+        Optional<InstitutionEntity> institution =institutionRepository.findById(institutionId);
+        if (institution.isEmpty()){
+            throw  new Exception("No institution with Id"+ institutionId.toString());
+        }
+        return institution.get().getCoursesOffered();
+    }
+
 
 }
