@@ -1,6 +1,6 @@
 
 server:
-  port: 9897
+  port: 45655
 
 spring:
   application:
