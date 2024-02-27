@@ -22,5 +22,7 @@ public class InstitutionEntity {
     private String county;
     private String country;
     private String phoneNumber;
+    private List<String> studentReg;
     private List<String> coursesOffered;
+    private Long studentCount;
 }

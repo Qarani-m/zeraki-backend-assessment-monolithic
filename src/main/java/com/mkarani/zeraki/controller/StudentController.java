@@ -1,15 +1,21 @@
 package com.mkarani.zeraki.controller;
 
 
+import com.mkarani.zeraki.dto.ChangeCourseDto;
+import com.mkarani.zeraki.dto.StudentNewNameDto;
 import com.mkarani.zeraki.dto.StudentRequest;
+import com.mkarani.zeraki.entity.StudentEntity;
+import com.mkarani.zeraki.exceptions.InstitutionExistsException;
+import com.mkarani.zeraki.exceptions.StudentExistError;
 import com.mkarani.zeraki.service.StudentService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import com.mkarani.zeraki.dto.ChangeInstitutionDto;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/students")
@@ -19,8 +25,67 @@ public class StudentController {
 
     // Add a student and assign them a course
     @PostMapping("/new")
-    public ResponseEntity<?> addStudent(@RequestBody StudentRequest studentDto) {
-        studentService.addStudent(studentDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> addStudent(@RequestBody StudentRequest studentDto) throws Exception {
+        try{
+        String message = studentService.addStudent(studentDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+
+    }catch (StudentExistError e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+    }
+    // Delete a student
+    @DeleteMapping("/delete/{studentId}")
+    public ResponseEntity<?> deleteStudent(@PathVariable Long studentId) {
+       try{
+        studentService.deleteStudent(studentId);
+        return ResponseEntity.noContent().build();
+
+    }catch (StudentExistError e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+    }
+    // Edit the name of a student
+    @PutMapping("/edit/{studentId}")
+    public ResponseEntity<?> editStudentName(@PathVariable Long studentId, @RequestBody StudentNewNameDto studentDto) {
+        try{
+        studentService.editStudentName(studentId, studentDto.getName());
+        return ResponseEntity.ok().build();
+
+    }catch (StudentExistError e){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+    }
+    // Change the course the student is doing within the same institution
+    @PutMapping("/change-course/{studentId}")
+    public ResponseEntity<?> changeStudentCourse(@PathVariable Long studentId, @RequestBody ChangeCourseDto courseDto) throws Exception {
+       try {
+           studentService.changeStudentCourse(studentId, courseDto.getCourse());
+           return ResponseEntity.ok().build();
+       }catch (StudentExistError e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+       }catch (Exception e){
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+       }
+    }
+
+    @PutMapping("/transfer/{studentId}")
+    public ResponseEntity<?> transferStudent(@PathVariable Long studentId, @RequestBody ChangeInstitutionDto institutionDto) throws Exception {
+        try {
+
+           StudentEntity student = studentService.transferStudent(studentId, institutionDto);
+            return ResponseEntity.ok().body(student);
+
+        }catch (InstitutionExistsException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
+
+    }
+
+    @GetMapping("/list-students")
+    public  ResponseEntity<List<StudentEntity>> listStudents(){
+        List<StudentEntity> studentEntities = studentService.listStudents();
+        return  ResponseEntity.ok(studentEntities);
     }
 }

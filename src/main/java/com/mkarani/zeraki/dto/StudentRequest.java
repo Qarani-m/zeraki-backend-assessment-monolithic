@@ -14,6 +14,6 @@ public class StudentRequest {
     private String regNumber;
     private String name;
     private String email;
-    private List<String> course;
+    private String course;
     private String institution;
 }

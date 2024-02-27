@@ -11,6 +11,7 @@ import com.mkarani.zeraki.repository.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,8 @@ public class InstitutionServiceImpl implements InstitutionService{
                 .county(institutionRequest.getCounty())
                 .country(institutionRequest.getCountry())
                 .phoneNumber(institutionRequest.getPhoneNumber())
+                .studentReg(new ArrayList<>())
+                .studentCount(0L)
                 .coursesOffered(institutionRequest.getCoursesOffered())
                 .build();
         return institutionRepository.save(institutionEntity);

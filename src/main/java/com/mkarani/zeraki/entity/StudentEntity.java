@@ -17,6 +17,6 @@ public class StudentEntity {
     private String regNumber;
     private String name;
     private String email;
-    private List<String> course;
-    private String institution;
+    private String course;
+    private Long institution;
 }
