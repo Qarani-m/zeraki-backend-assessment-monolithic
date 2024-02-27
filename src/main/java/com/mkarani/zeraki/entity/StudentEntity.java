@@ -4,7 +4,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "institutions", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(name = "institutions", uniqueConstraints = @UniqueConstraint(columnNames = {"regNumber"}))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,8 +14,6 @@ public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "regNumber", unique = true)
     private String regNumber;
     private String name;
     private String email;

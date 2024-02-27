@@ -19,4 +19,8 @@ public interface CoursesService {
     List<CourseEntity> sortCoursesByName(String direction);
 
     List<CourseEntity> getAllCourses();
+
+    List<CourseEntity> searchCourses(String keyword);
+
+    List<CourseEntity> getCoursesByInstitution2(Long institutionId);
 }

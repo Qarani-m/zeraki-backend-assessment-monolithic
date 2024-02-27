@@ -31,16 +31,12 @@ public class CourseController {
     }
 
 //
-//    // Sort courses by name in ascending order
-//    @GetMapping("/sort/asc")
-//    public ResponseEntity<List<CourseEntity>> sortCoursesByNameAsc(@RequestParam(required = false) String institution) {
-//        try {
-//            List<CourseEntity> courses = courseService.sortCoursesByNameAsc(institution);
-//            return ResponseEntity.ok().body(courses);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        }
-//    }
+// Endpoint to filter courses by searching
+@GetMapping("/search/{keyword}")
+public ResponseEntity<List<CourseEntity>> searchCourses(@PathVariable String keyword) {
+    List<CourseEntity> filteredCourses = courseService.searchCourses(keyword);
+    return ResponseEntity.ok().body(filteredCourses);
+}
 //
 //    // Sort courses by name in descending order
     @GetMapping("/sort/{direction}")
@@ -93,5 +89,11 @@ public class CourseController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+    // Endpoint to retrieve courses based on the selected institution
+    @GetMapping("/change-by-institution/{institutionId}")
+    public ResponseEntity<List<CourseEntity>> getCoursesByInstitution(@PathVariable Long institutionId) {
+        List<CourseEntity> courses = courseService.getCoursesByInstitution2(institutionId);
+        return ResponseEntity.ok().body(courses);
     }
 }

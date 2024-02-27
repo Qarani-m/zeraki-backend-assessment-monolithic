@@ -104,4 +104,14 @@ public class CourseServicesImpl implements CoursesService{
     public List<CourseEntity> getAllCourses() {
         return courseRepository.findAll();
     }
+
+    @Override
+    public List<CourseEntity> searchCourses(String keyword) {
+        return courseRepository.findByCourseNameContaining(keyword);
+    }
+
+    @Override
+    public List<CourseEntity> getCoursesByInstitution2(Long institutionId) {
+        return null;
+    }
 }

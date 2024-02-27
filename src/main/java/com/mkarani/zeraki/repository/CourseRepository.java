@@ -1,6 +1,7 @@
 package com.mkarani.zeraki.repository;
 
 import com.mkarani.zeraki.entity.CourseEntity;
+import com.mkarani.zeraki.entity.InstitutionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,4 +18,8 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
     List<CourseEntity> findAllOrderedByNameAsc();
 
     List<CourseEntity> findByCourseCode(String courseCode);
+    @Query(value = "SELECT * FROM courses WHERE name LIKE %:keyword%", nativeQuery = true)
+    List<CourseEntity> findByCourseNameContaining(String keyword);
+
+
 }
