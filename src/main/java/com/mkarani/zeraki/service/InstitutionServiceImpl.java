@@ -54,7 +54,7 @@ public class InstitutionServiceImpl implements InstitutionService{
     }
     @Override
     public List<InstitutionEntity> searchInstitutionsByName(String name) {
-        return institutionRepository.findByCompanyNameContaining(name);
+        return institutionRepository.findByNameContaining(name);
     }
 
     @Override

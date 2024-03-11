@@ -84,10 +84,11 @@ public ResponseEntity<List<CourseEntity>> searchCourses(@PathVariable String key
     @PutMapping("/{courseId}")
     public ResponseEntity<?> editCourseName(@PathVariable Long courseId, @RequestBody CourseRequest courseRequest) {
         try {
+            System.out.println(courseRequest.getName());
             CourseEntity course = courseService.editCourseName(courseId, courseRequest.getName());
             return ResponseEntity.ok().body(course);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
     // Endpoint to retrieve courses based on the selected institution

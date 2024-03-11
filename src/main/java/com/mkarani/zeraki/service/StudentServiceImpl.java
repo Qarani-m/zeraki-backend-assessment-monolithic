@@ -31,16 +31,23 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public String addStudent(StudentRequest studentRequest) throws Exception {
-        List<InstitutionEntity> institutionIdList = institutionRepository.findByCompanyNameContaining(studentRequest.getInstitution());
+        List<InstitutionEntity> institutionIdList = institutionRepository.findByNameContaining(studentRequest.getInstitution());
+
+
+
         Long institutionId = null;
         if(institutionIdList.isEmpty()){
             throw new Exception("Institution with name: "+studentRequest.getInstitution()+" does not Exist");
         }
         institutionId = institutionIdList.get(0).getId();
+        System.out.println("-------------9-------------");
+
         Optional<InstitutionEntity> institutionEntity = institutionRepository.findById(institutionId);
         if(institutionEntity.isEmpty()){
-            throw new Exception("Institution with name: "+studentRequest.getInstitution()+" does not Exist");
+            throw new Exception("Institution with name2: "+studentRequest.getInstitution()+" does not Exist");
         }
+        System.out.println("------------8--------------"+studentRequest.getCourse());
+
         Long courseId = courseRepository.findByCourseNameContaining(studentRequest.getCourse()).get(0).getId();
         Optional<CourseEntity> courseEntity = courseRepository.findById(courseId);
         if(courseEntity.isEmpty()){
@@ -159,7 +166,6 @@ public class StudentServiceImpl implements StudentService{
         try{
             return studentRepository.findByCourse(courseCode);
 
-
         }catch(Exception e){
             throw new Exception("Error when deleting student");
         }
@@ -167,7 +173,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public List<StudentEntity> studentsInEachInstitution(String institution) {
-        List<InstitutionEntity> institutionEntity = institutionRepository.findByCompanyNameContaining(institution);
+        List<InstitutionEntity> institutionEntity = institutionRepository.findByNameContaining(institution);
         Long institutionId = institutionEntity.get(0).getId();
         return studentRepository.findAllByInstitution(institutionId);
     }

@@ -66,7 +66,7 @@ public class CourseServicesImpl implements CoursesService{
     @Override
     public String deleteCourse(Long courseId) {
         try{
-            institutionRepository.deleteById(courseId);
+            courseRepository.deleteById(courseId);
             return "Institution with Id "+courseId+" deleted Sucessfull";
         }catch (Exception e){
             throw new DeletionErrorException(courseId);
@@ -76,20 +76,18 @@ public class CourseServicesImpl implements CoursesService{
     @Override
     public CourseEntity editCourseName(Long id, String newInstitutionName) throws JsonProcessingException {
 
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode node = mapper.readTree(newInstitutionName);
-        String nameNode = node.get("name").asText();
 
-        Optional<CourseEntity> existingCourseByName = courseRepository.findByName(nameNode);
+
+        Optional<CourseEntity> existingCourseByName = courseRepository.findByName(newInstitutionName);
         Optional<CourseEntity> existingCourseById = courseRepository.findById(id);
         if (existingCourseByName.isPresent()) {
-            throw new InstitutionExistsException(nameNode);
+            throw new InstitutionExistsException(newInstitutionName);
         }
         if (existingCourseById.isEmpty()) {
             throw new IllegalArgumentException("Institution with the Id "+id+" does not exist");
         }
         CourseEntity courseEntity = existingCourseById.get();
-        courseEntity.setName(nameNode);
+        courseEntity.setName(newInstitutionName);
         return courseRepository.save(courseEntity);
     }
     @Override

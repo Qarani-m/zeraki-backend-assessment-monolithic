@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface InstitutionRepository extends JpaRepository<InstitutionEntity, Long> {
     Optional<InstitutionEntity> findByName(String name);
     @Query(value = "SELECT * FROM institutions WHERE name LIKE %:keyword%", nativeQuery = true)
-    List<InstitutionEntity> findByCompanyNameContaining(String keyword);
+    List<InstitutionEntity> findByNameContaining(String keyword);
 
 
     @Query(value = "SELECT * FROM institutions ORDER BY name DESC", nativeQuery = true)
